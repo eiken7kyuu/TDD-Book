@@ -12,8 +12,10 @@ namespace TddLearn.Tests
         public void testMultiplication()
         {
             var five = new Dollar(5);
-            five.Times(2);
-            Assert.Equal(10, five.Amount);
+            Dollar product = five.Times(2);
+            Assert.Equal(10, product.Amount);
+            product = five.Times(3);
+            Assert.Equal(15, product.Amount);
         }
     }
 }
