@@ -2,22 +2,22 @@ namespace TddLearn
 {
     public class Dollar
     {
-        public int Amount { get; set; }
+        private int amount { get; set; }
 
         public Dollar(int amount)
         {
-            Amount = amount;
+            this.amount = amount;
         }
 
         public Dollar Times(int multiplier)
         {
-            return new Dollar(Amount * multiplier);
+            return new Dollar(amount * multiplier);
         }
 
         public override bool Equals(object obj)
         {
             var dollar = (Dollar)obj;
-            return Amount == dollar.Amount;
+            return amount == dollar.amount;
         }
     }
 }
