@@ -7,7 +7,8 @@ namespace TddLearn
         public override bool Equals(object obj)
         {
             Money money = (Money)obj;
-            return amount == money.amount;
+            return amount == money.amount
+                && this.GetType() == money.GetType();
         }
     }
 }
