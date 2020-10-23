@@ -46,6 +46,10 @@ namespace TddLearn
             return new Sum(this, addend);
         }
 
-        public Money Reduce(string to) => this;
+        public Money Reduce(Bank bank, string to)
+        {
+            var rate = bank.Rate(Currency, to);
+            return new Money(Amount / rate, to);
+        }
     }
 }
