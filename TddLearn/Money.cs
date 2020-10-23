@@ -43,7 +43,9 @@ namespace TddLearn
 
         public Expression Plus(Money addend)
         {
-            return new Money(Amount + addend.Amount, Currency);
+            return new Sum(this, addend);
         }
+
+        public Money Reduce(string to) => this;
     }
 }

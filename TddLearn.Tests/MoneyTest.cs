@@ -43,5 +43,32 @@ namespace TddLearn.Tests
             Assert.Equal(Money.Dollar(10), reduced);
         }
 
+        [Fact]
+        public void testPlusReturnsSum()
+        {
+            Money five = Money.Dollar(5);
+            Expression result = five.Plus(five);
+            Sum sum = (Sum)result;
+            Assert.Equal(five, sum.Augend);
+            Assert.Equal(five, sum.Addend);
+        }
+
+        [Fact]
+        public void testReduceSum()
+        {
+            Expression sum = new Sum(Money.Dollar(3), Money.Dollar(4));
+            Bank bank = new Bank();
+            Money result = bank.Reduce(sum, "USD");
+            Assert.Equal(Money.Dollar(7), result);
+        }
+
+        [Fact]
+        public void testReduceMoney()
+        {
+            Bank bank = new Bank();
+            Money result = bank.Reduce(Money.Dollar(1), "USD");
+            Assert.Equal(Money.Dollar(1), result);
+        }
+
     }
 }
