@@ -1,9 +1,7 @@
 namespace TddLearn
 {
-    public class Dollar
+    public class Dollar : Money
     {
-        private int amount { get; set; }
-
         public Dollar(int amount)
         {
             this.amount = amount;
@@ -12,12 +10,6 @@ namespace TddLearn
         public Dollar Times(int multiplier)
         {
             return new Dollar(amount * multiplier);
-        }
-
-        public override bool Equals(object obj)
-        {
-            var dollar = (Dollar)obj;
-            return amount == dollar.amount;
         }
     }
 }
