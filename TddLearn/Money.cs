@@ -2,7 +2,7 @@ using System;
 
 namespace TddLearn
 {
-    public class Money
+    public class Money : Expression
     {
         protected internal int Amount { get; }
 
@@ -39,6 +39,11 @@ namespace TddLearn
         public override string ToString()
         {
             return $"{Amount} {Currency}";
+        }
+
+        public Expression Plus(Money addend)
+        {
+            return new Money(Amount + addend.Amount, Currency);
         }
     }
 }

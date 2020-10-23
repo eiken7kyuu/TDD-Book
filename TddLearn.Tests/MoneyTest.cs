@@ -30,5 +30,18 @@ namespace TddLearn.Tests
             Assert.Equal("USD", Money.Dollar(1).Currency);
             Assert.Equal("CHF", Money.Franc(1).Currency);
         }
+
+        [Fact]
+        public void testSimpleAddtion()
+        {
+            Money five = Money.Dollar(5);
+            Expression sum = five.Plus(five);
+
+            // 為替レートを適用してそのレート換算にする レート換算処理は銀行の責務とする
+            Bank bank = new Bank();
+            Money reduced = bank.Reduce(sum, "USD");
+            Assert.Equal(Money.Dollar(10), reduced);
+        }
+
     }
 }
