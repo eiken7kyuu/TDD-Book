@@ -2,13 +2,11 @@ using System;
 
 namespace TddLearn
 {
-    public abstract class Money
+    public class Money
     {
         protected internal int Amount { get; }
 
         public string Currency { get; }
-
-        public abstract Money Times(int multiplier);
 
         public Money(int amount, string currency)
         {
@@ -20,7 +18,12 @@ namespace TddLearn
         {
             Money money = (Money)obj;
             return Amount == money.Amount
-                && this.GetType() == money.GetType();
+                && Currency == money.Currency;
+        }
+
+        public Money Times(int multiplier)
+        {
+            return new Money(Amount * multiplier, Currency);
         }
 
         public static Money Dollar(int amount)
@@ -31,6 +34,11 @@ namespace TddLearn
         public static Money Franc(int amount)
         {
             return new Franc(amount, "CHF");
+        }
+
+        public override string ToString()
+        {
+            return $"{Amount} {Currency}";
         }
     }
 }
