@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Xunit;
 using TddLearn;
 
@@ -8,6 +7,18 @@ namespace TddLearn.Tests
 {
     public class MoneyTest
     {
+        private readonly Expression _fiveBucks;
+        private readonly Expression _tenFrancs;
+        private readonly Bank _bank;
+
+        public MoneyTest()
+        {
+            _fiveBucks = Money.Dollar(5);
+            _tenFrancs = Money.Franc(10);
+            _bank = new Bank();
+            _bank.AddRate("CHF", "USD", 2); // 為替レート
+        }
+
         [Fact]
         public void testMultiplication()
         {
@@ -38,8 +49,7 @@ namespace TddLearn.Tests
             Expression sum = five.Plus(five);
 
             // 為替レートを適用してそのレート換算にする レート換算処理は銀行の責務とする
-            Bank bank = new Bank();
-            Money reduced = bank.Reduce(sum, "USD");
+            Money reduced = _bank.Reduce(sum, "USD");
             Assert.Equal(Money.Dollar(10), reduced);
         }
 
@@ -57,16 +67,14 @@ namespace TddLearn.Tests
         public void testReduceSum()
         {
             Expression sum = new Sum(Money.Dollar(3), Money.Dollar(4));
-            Bank bank = new Bank();
-            Money result = bank.Reduce(sum, "USD");
+            Money result = _bank.Reduce(sum, "USD");
             Assert.Equal(Money.Dollar(7), result);
         }
 
         [Fact]
         public void testReduceMoney()
         {
-            Bank bank = new Bank();
-            Money result = bank.Reduce(Money.Dollar(1), "USD");
+            Money result = _bank.Reduce(Money.Dollar(1), "USD");
             Assert.Equal(Money.Dollar(1), result);
         }
 
@@ -74,9 +82,7 @@ namespace TddLearn.Tests
         [Fact]
         public void testReduceMoneyDifferentCurrency()
         {
-            Bank bank = new Bank();
-            bank.AddRate("CHF", "USD", 2);
-            Money result = bank.Reduce(Money.Franc(2), "USD");
+            Money result = _bank.Reduce(Money.Franc(2), "USD");
             Assert.Equal(Money.Dollar(1), result);
         }
 
@@ -89,12 +95,23 @@ namespace TddLearn.Tests
         [Fact]
         public void testMixedAddtion()
         {
-            Expression fiveBucks = Money.Dollar(5);
-            Expression tenFrancs = Money.Franc(10);
-            Bank bank = new Bank();
-            bank.AddRate("CHF", "USD", 2);
-            Money result = bank.Reduce(fiveBucks.Plus(tenFrancs), "USD");
+            Money result = _bank.Reduce(_fiveBucks.Plus(_tenFrancs), "USD");
             Assert.Equal(Money.Dollar(10), result);
+        }
+
+        [Fact]
+        public void testSumPlusMoney()
+        {
+            Expression sum = new Sum(_fiveBucks, _tenFrancs).Plus(_fiveBucks);
+            Money result = _bank.Reduce(sum, "USD");
+            Assert.Equal(Money.Dollar(15), result);
+        }
+
+        [Fact]
+        public void testSumTimes()
+        {
+            Expression sum = new Sum(_fiveBucks, _tenFrancs).Times(2);
+            Assert.Equal(Money.Dollar(20), sum.Reduce(_bank, "USD"));
         }
     }
 }

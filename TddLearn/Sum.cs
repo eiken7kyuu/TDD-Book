@@ -23,7 +23,12 @@ namespace TddLearn
 
         public Expression Plus(Expression addend)
         {
-            throw new NotImplementedException();
+            return new Sum(this, addend);
+        }
+
+        public Expression Times(int multiplier)
+        {
+            return new Sum(Augend.Times(multiplier), Addend.Times(multiplier));
         }
     }
 }
