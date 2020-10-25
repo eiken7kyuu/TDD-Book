@@ -5,10 +5,10 @@ namespace TddLearn
 {
     public class Sum : Expression
     {
-        public Money Augend { get; }
-        public Money Addend { get; }
+        public Expression Augend { get; }
+        public Expression Addend { get; }
 
-        public Sum(Money augend, Money addend)
+        public Sum(Expression augend, Expression addend)
         {
             Augend = augend;
             Addend = addend;
@@ -16,7 +16,14 @@ namespace TddLearn
 
         public Money Reduce(Bank bank, string to)
         {
-            return new Money(Augend.Amount + Addend.Amount, to);
+            return new Money(
+                Augend.Reduce(bank, to).Amount +
+                Addend.Reduce(bank, to).Amount, to);
+        }
+
+        public Expression Plus(Expression addend)
+        {
+            throw new NotImplementedException();
         }
     }
 }

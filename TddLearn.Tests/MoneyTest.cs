@@ -85,5 +85,16 @@ namespace TddLearn.Tests
         {
             Assert.Equal(1, new Bank().Rate("USD", "USD"));
         }
+
+        [Fact]
+        public void testMixedAddtion()
+        {
+            Expression fiveBucks = Money.Dollar(5);
+            Expression tenFrancs = Money.Franc(10);
+            Bank bank = new Bank();
+            bank.AddRate("CHF", "USD", 2);
+            Money result = bank.Reduce(fiveBucks.Plus(tenFrancs), "USD");
+            Assert.Equal(Money.Dollar(10), result);
+        }
     }
 }
